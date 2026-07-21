@@ -145,27 +145,38 @@ TRANSCRIPT:
 
 
 def generate_thread(transcript: str, api_key: str) -> str:
-    """Call Gemini Flash and return the Twitter thread."""
+    """Call Gemini Flash and return the Twitter thread with fallback models."""
     client = genai.Client(api_key=api_key)
     prompt = THREAD_PROMPT.format(transcript=transcript[:4000])
 
-    for attempt in range(1, 4):
-        try:
-            response = client.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    temperature=0.75,
-                    max_output_tokens=1500,
-                ),
-            )
-            return response.text
-        except Exception as e:
-            print(f"  [Retry {attempt}/3] Gemini error: {e}")
-            if attempt < 3:
-                time.sleep(2 ** attempt)
+    fallback_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
+    last_error = None
 
-    raise RuntimeError("Gemini API failed after 3 attempts.")
+    for model_id in fallback_models:
+        for attempt in range(1, 3):
+            try:
+                response = client.models.generate_content(
+                    model=model_id,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        temperature=0.75,
+                        max_output_tokens=1500,
+                    ),
+                )
+                return response.text
+            except Exception as e:
+                last_error = e
+                err_str = str(e).lower()
+                print(f"  [WARNING] Gemini API ({model_id}) attempt {attempt}/2 failed: {e}")
+                
+                # If the error is about model deprecation/not found, break immediately to try the next model
+                if "not found" in err_str or "deprecated" in err_str or "invalid model" in err_str or "404" in err_str:
+                    break
+                
+                if attempt < 2:
+                    time.sleep(2 ** attempt)
+
+    raise RuntimeError(f"Gemini API failed on all fallback models. Last error: {last_error}")
 
 
 # ─── Demo Thread (No API Key Required) ───────────────────────────────────────
