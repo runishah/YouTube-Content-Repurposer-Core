@@ -53,16 +53,26 @@ echo "  [SETUP] Installing packages..."
 "$VENV_PYTHON" -m pip install youtube-transcript-api google-genai python-dotenv --quiet --upgrade 2>/dev/null
 echo "  [OK] Packages ready."
 
-# ── Set up .env ───────────────────────────────────────────────────
-if [ ! -f ".env" ]; then
-    printf 'GEMINI_API_KEY=your_gemini_api_key_here\nPYTHONUTF8=1\n' > .env
-    echo "  [SETUP] Created .env"
-    echo "  Get FREE API key at: https://aistudio.google.com"
-    echo "  Opening .env for editing..."
-    for editor in xdg-open gedit nano vim; do
-        command -v "$editor" &>/dev/null && { "$editor" .env & break; }
-    done
-    sleep 2
+# ── API Key Setup ───────────────────────────────────────────────────
+GEMINI_API_KEY=""
+if [ -f ".env" ]; then
+    GEMINI_API_KEY=$(grep '^GEMINI_API_KEY=' .env | cut -d '=' -f2-)
+fi
+
+if [ -n "$GEMINI_API_KEY" ] && [ "$GEMINI_API_KEY" != "your_gemini_api_key_here" ]; then
+    echo ""
+    read -p "  [?] Found existing Gemini API key. Do you want to use the same API key of Gemini? (Y/N): " USE_EXISTING
+    if [[ "$USE_EXISTING" =~ ^[Nn]$ ]]; then
+        read -p "  [?] Enter new GEMINI_API_KEY: " NEW_KEY
+        echo "GEMINI_API_KEY=$NEW_KEY" > .env
+        echo "PYTHONUTF8=1" >> .env
+    fi
+else
+    echo ""
+    echo "  Get a FREE Gemini API key at: https://aistudio.google.com"
+    read -p "  [?] Enter your GEMINI_API_KEY: " NEW_KEY
+    echo "GEMINI_API_KEY=$NEW_KEY" > .env
+    echo "PYTHONUTF8=1" >> .env
 fi
 
 # ── Launch ────────────────────────────────────────────────────────

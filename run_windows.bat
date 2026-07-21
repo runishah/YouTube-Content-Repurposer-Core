@@ -63,21 +63,39 @@ if !errorlevel! neq 0 (
 )
 echo   [OK] Packages ready.
 
-:: ── Step 5: Check for .env ───────────────────────────────────────
-if not exist ".env" (
+:: ── Step 5: API Key Setup ────────────────────────────────────────
+set "GEMINI_API_KEY="
+if exist ".env" (
+    for /f "tokens=1* delims==" %%A in (.env) do (
+        if "%%A"=="GEMINI_API_KEY" set "GEMINI_API_KEY=%%B"
+    )
+)
+
+if not "!GEMINI_API_KEY!"=="" (
+    if not "!GEMINI_API_KEY!"=="your_gemini_api_key_here" (
+        echo.
+        set /p USE_EXISTING="  [?] Found existing Gemini API key. Do you want to use the same API key of Gemini? (Y/N): "
+        if /i "!USE_EXISTING!"=="N" (
+            set /p NEW_KEY="  [?] Enter new GEMINI_API_KEY: "
+            echo GEMINI_API_KEY=!NEW_KEY!> .env
+            echo PYTHONUTF8=1>> .env
+            set "GEMINI_API_KEY=!NEW_KEY!"
+        )
+    ) else (
+        echo.
+        echo   Get a FREE Gemini API key at: https://aistudio.google.com
+        set /p NEW_KEY="  [?] Enter your GEMINI_API_KEY: "
+        echo GEMINI_API_KEY=!NEW_KEY!> .env
+        echo PYTHONUTF8=1>> .env
+        set "GEMINI_API_KEY=!NEW_KEY!"
+    )
+) else (
     echo.
-    echo   [SETUP] Creating .env file...
-    (
-        echo GEMINI_API_KEY=your_gemini_api_key_here
-        echo PYTHONUTF8=1
-    ) > .env
-    echo   [ACTION REQUIRED] Open .env and add your GEMINI_API_KEY.
-    echo   Get a FREE key at: https://aistudio.google.com
-    echo.
-    echo   Press any key to open .env, or Ctrl+C to skip and run in demo mode.
-    pause >nul
-    notepad .env
-    echo.
+    echo   Get a FREE Gemini API key at: https://aistudio.google.com
+    set /p NEW_KEY="  [?] Enter your GEMINI_API_KEY: "
+    echo GEMINI_API_KEY=!NEW_KEY!> .env
+    echo PYTHONUTF8=1>> .env
+    set "GEMINI_API_KEY=!NEW_KEY!"
 )
 
 :: ── Step 6: Launch ───────────────────────────────────────────────
