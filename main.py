@@ -218,10 +218,12 @@ Want all 4 content formats? → https://gumroad.com/l/omnichannel-repurposer
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="FREE Core Tier — YouTube URL → Twitter/X Thread (Powered by Gemini Flash)",
+        description="FREE Core Tier -- YouTube URL -> Twitter/X Thread (Powered by Gemini Flash)",
     )
-    parser.add_argument("--url", required=True, help="YouTube video URL")
-    parser.add_argument("--demo", action="store_true", help="Show demo output (no API key needed)")
+    parser.add_argument("--url", required=False, default=None,
+                        help="YouTube video URL (omit to enter interactively)")
+    parser.add_argument("--demo", action="store_true",
+                        help="Show demo output (no API key needed)")
     return parser.parse_args()
 
 
@@ -237,67 +239,97 @@ def main():
     # ── Demo mode ─────────────────────────────────────────────────
     if args.demo:
         print("  [DEMO MODE] Showing sample output.\n")
-        print("─" * 55)
+        print("-" * 55)
         print(DEMO_THREAD)
-        print("─" * 55)
+        print("-" * 55)
         print()
-        print("  💡 Want the FULL system? (4 content formats, batch runner,")
-        print("     WordPress/Ghost publishing, brand voice config)")
-        print("  👉 https://gumroad.com/l/omnichannel-repurposer")
+        print("  Want the FULL system? (4 content formats)")
+        print("  https://gumroad.com/l/omnichannel-repurposer")
         print()
         sys.exit(0)
 
-    # ── Live mode ──────────────────────────────────────────────────
+    # ── Interactive mode: no --url provided ───────────────────────
+    interactive = args.url is None
+    if interactive:
+        print("  Welcome! Convert any YouTube video into a Twitter/X thread.")
+        print("  Powered by Google Gemini Flash AI.")
+        print()
+        while True:
+            try:
+                url = input("  Paste YouTube URL here: ").strip()
+            except (EOFError, KeyboardInterrupt):
+                print("\n  Cancelled.")
+                sys.exit(0)
+            if not url:
+                print("  [!] URL cannot be empty. Please try again.")
+                continue
+            if "youtube.com" in url or "youtu.be" in url:
+                break
+            if re.match(r'^[a-zA-Z0-9_-]{11}$', url):
+                url = f"https://www.youtube.com/watch?v={url}"
+                break
+            print("  [!] That doesn't look like a YouTube URL. Try again.")
+        print()
+    else:
+        url = args.url
+
+    # ── Check API key ──────────────────────────────────────────────
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         print("  [WARNING] GEMINI_API_KEY not set. Showing demo output instead.")
         print("  Add your key to a .env file: GEMINI_API_KEY=your_key_here")
         print("  Get a free key at: https://aistudio.google.com\n")
-        print("─" * 55)
+        print("-" * 55)
         print(DEMO_THREAD)
-        print("─" * 55)
+        print("-" * 55)
+        if interactive:
+            print()
+            input("  Press ENTER to close...")
         sys.exit(0)
 
-    print(f"  URL: {args.url}")
+    print(f"  URL: {url}")
     print()
 
     # Step 1: Transcript
-    print("  → Fetching transcript...")
-    result = get_transcript(args.url)
+    print("  -> Fetching transcript...")
+    result = get_transcript(url)
 
     if result["error"]:
         print(f"  [WARNING] {result['error']}")
-        print("  → Using demo content for illustration.")
+        print("  -> Using demo content for illustration.")
         transcript_text = None
     else:
         transcript_text = result["text"]
         word_count = len(transcript_text.split())
-        print(f"  ✓ Transcript: {word_count} words (video: {result['video_id']})")
+        print(f"  OK Transcript: {word_count} words (video: {result['video_id']})")
 
     # Step 2: Generate thread
-    print("  → Generating Twitter thread with Gemini Flash...")
+    print("  -> Generating Twitter thread with Gemini Flash...")
     try:
         if transcript_text:
             thread = generate_thread(transcript_text, api_key)
         else:
             thread = DEMO_THREAD
-        print("  ✓ Thread generated!\n")
+        print("  OK Thread generated!\n")
     except Exception as e:
-        print(f"  [ERROR] {e}\n  → Showing demo thread instead.\n")
+        print(f"  [ERROR] {e}\n  -> Showing demo thread instead.\n")
         thread = DEMO_THREAD
 
     # Step 3: Display
-    print("═" * 55)
+    print("=" * 55)
     print("  YOUR TWITTER/X THREAD")
-    print("═" * 55)
+    print("=" * 55)
     print(thread)
-    print("═" * 55)
+    print("=" * 55)
     print()
-    print("  🔥 Love this tool? Want 4x the output?")
-    print("  📦 Pro Tier ($29): SEO article + thread + newsletter + Reels scripts")
-    print("  🚀 Advanced Tier ($49): Pro + batch processing + auto-publish to WordPress/Ghost")
-    print("  👉 https://gumroad.com/l/omnichannel-repurposer")
+    print("  Love this tool? Want 4x the output?")
+    print("  Pro Tier ($29): SEO article + thread + newsletter + Reels scripts")
+    print("  Advanced Tier ($49): Pro + batch processing + auto-publish")
+    print("  Get it at: https://gumroad.com/l/omnichannel-repurposer")
     print()
+
+    if interactive:
+        input("  Press ENTER to close...")
 
     sys.exit(0)
 
