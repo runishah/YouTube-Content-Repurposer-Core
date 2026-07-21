@@ -1,13 +1,13 @@
 # 🎯 Omnichannel AI Content Repurposer — FREE Core Tier
 
-> **⚡ Turn any YouTube video into a Twitter/X thread in seconds — powered by Google Gemini Flash**
+> **⚡ Turn any YouTube video into social media content in seconds — powered by Google Gemini Flash**
 
 ---
 
 ## 🔥 WANT THE FULL CONTENT SUITE?
 
 > **The Pro & Advanced tiers generate 4 formats from any YouTube video:**  
-> ✅ 1,000+ word SEO Blog Article · ✅ Twitter/X Thread · ✅ Email Newsletter · ✅ 3 Short-Form Scripts  
+> ✅ 1,000+ word SEO Blog Article · ✅ Social Media Thread · ✅ Email Newsletter · ✅ 3 Short-Form Scripts  
 > 
 > **👉 [Grab Pro Tier ($29) or Advanced Tier ($49) on Gumroad](https://gumroad.com/l/omnichannel-repurposer)**  
 > Batch processing · Brand voice config · WordPress/Ghost auto-publishing
@@ -16,7 +16,7 @@
 
 ## What This Free Version Does
 
-Drop in a YouTube URL → get a viral 5-tweet thread, instantly.
+Drop in a YouTube URL → get high-converting social media content, instantly.
 
 ```
 python main.py --url "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
@@ -24,8 +24,8 @@ python main.py --url "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
 
 ### Features (Free Core Tier)
 - 🎬 Extracts transcripts from any YouTube video (auto-generated or manual)
-- 🤖 Calls Google Gemini Flash for human-quality thread generation
-- 🐦 Returns a 5-tweet thread with viral hook and CTA
+- 🤖 Calls Google Gemini Flash for human-quality generation
+- 📝 Returns structured content with viral hooks and CTAs
 - 🔁 Fallback demo mode — no API key required to test
 
 ---
@@ -35,7 +35,7 @@ python main.py --url "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/your-handle/YouTube-Content-Repurposer-Core
+git clone https://github.com/runishah/YouTube-Content-Repurposer-Core
 cd YouTube-Content-Repurposer-Core
 pip install youtube-transcript-api google-genai python-dotenv
 ```
@@ -115,13 +115,13 @@ Same effort. 10x the reach. No extra hours.
 
 ## 🚀 Ready for More?
 
-This free core tier gives you **1 output format** (Twitter thread).
+This free core tier gives you **1 output format**.
 
 The full system generates **4 complete content formats** from a single YouTube video:
 
 | Feature | Free Core | Pro ($29) | Advanced ($49) |
 |---|:---:|:---:|:---:|
-| Twitter Thread | ✅ | ✅ | ✅ |
+| Social Media Thread | ✅ | ✅ | ✅ |
 | SEO Blog Article | ❌ | ✅ | ✅ |
 | Email Newsletter | ❌ | ✅ | ✅ |
 | Short-Form Scripts (3x) | ❌ | ✅ | ✅ |
