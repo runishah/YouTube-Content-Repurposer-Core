@@ -32,33 +32,39 @@ python main.py --url "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
 
 ## Quick Start (5 minutes)
 
-### 1. Clone & Install
+### 1. Download & Launch
 
-```bash
-git clone https://github.com/runishah/YouTube-Content-Repurposer-Core
-cd YouTube-Content-Repurposer-Core
-pip install youtube-transcript-api google-genai python-dotenv
-```
+We've built zero-friction launchers for Windows, macOS, and Linux. You don't need terminal experience.
 
-### 2. Get Your Free Gemini API Key
+1. Clone or download this repository.
+2. Double-click the launcher for your OS:
+   - **Windows**: Double-click `run_windows.bat`
+   - **macOS**: Double-click `run_mac.command`
+   - **Linux**: Run `bash run_linux.sh`
 
-👉 [Google AI Studio](https://aistudio.google.com) → Sign in → Get API key (it's free)
+### What it looks like:
 
-### 3. Set Up Your Key
+```text
+==============================================================
+  OMNICHANNEL AI CONTENT REPURPOSER ENGINE
+  Powered by Google Gemini Flash
+==============================================================
 
-Create a `.env` file in the project folder:
-```
-GEMINI_API_KEY=your_gemini_api_key_here
-```
+  Python found: python (3.11.4)
+  Working directory: C:\path\to\folder
+  [SETUP] Creating virtual environment .venv...
+  [SETUP] Installing required packages...
+  [OK] Packages ready.
 
-### 4. Run It
+  Get a FREE Gemini API key at: https://aistudio.google.com
+  [?] Enter your GEMINI_API_KEY: your_api_key_here
 
-```bash
-# Live mode (requires API key)
-python main.py --url "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+==============================================================
+  Starting Repurposer...
+==============================================================
 
-# Demo mode (no API key needed — see sample output)
-python main.py --url "https://youtu.be/anything" --demo
+  Paste YouTube URL here: https://www.youtube.com/watch?v=example
+  ...
 ```
 
 ---
