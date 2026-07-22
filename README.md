@@ -44,28 +44,7 @@ We've built zero-friction launchers for Windows, macOS, and Linux. You don't nee
 
 ### What it looks like:
 
-```text
-==============================================================
-  OMNICHANNEL AI CONTENT REPURPOSER ENGINE
-  Powered by Google Gemini Flash
-==============================================================
-
-  Python found: python (3.11.4)
-  Working directory: C:\path\to\folder
-  [SETUP] Creating virtual environment .venv...
-  [SETUP] Installing required packages...
-  [OK] Packages ready.
-
-  Get a FREE Gemini API key at: https://aistudio.google.com
-  [?] Enter your GEMINI_API_KEY: your_api_key_here
-
-==============================================================
-  Starting Repurposer...
-==============================================================
-
-  Paste YouTube URL here: https://www.youtube.com/watch?v=example
-  ...
-```
+![Interactive Terminal Launcher](terminal_screenshot.png)
 
 ---
 
