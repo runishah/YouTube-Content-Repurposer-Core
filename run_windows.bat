@@ -40,7 +40,7 @@ cd /d "%~dp0"
 :: ── Step 3: Create virtual environment ───────────────────────────
 if not exist ".venv\Scripts\python.exe" (
     echo.
-    echo   [SETUP] Creating virtual environment...
+    echo   [SETUP] Creating virtual environment .venv...
     %PYTHON_CMD% -m venv .venv
     if !errorlevel! neq 0 (
         echo   [WARNING] Could not create .venv. Using system Python.
