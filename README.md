@@ -14,14 +14,6 @@
 
 ---
 
-## What This Free Version Does
-
-Drop in a YouTube URL → get high-converting social media content, instantly.
-
-```
-python main.py --url "https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
-```
-
 ### Features (Free Core Tier)
 - 🎬 Extracts transcripts from any YouTube video (auto-generated or manual)
 - 🤖 Calls Google Gemini Flash for human-quality generation
